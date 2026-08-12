@@ -9,6 +9,11 @@ _In this [demo video](https://player.vimeo.com/video/1186371009?h=5626e4b899), S
 
 > [!WARNING]
 > Symphony is a low-key engineering preview for testing in trusted environments.
+>
+> Tracker issue titles and bodies are rendered into the coding-agent prompt. If tracker write access
+> includes untrusted principals (for example, public issue creation), restrict which issues are
+> eligible for automatic dispatch and harden the agent's sandbox, tool, network, and credential
+> boundaries accordingly. See [`SPEC.md` §15.5](SPEC.md#155-threat-model-and-deployment-hardening).
 
 ## Running Symphony
 
