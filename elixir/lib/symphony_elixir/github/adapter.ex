@@ -10,6 +10,12 @@ defmodule SymphonyElixir.GitHub.Adapter do
 
   @active_states ["open"]
   @terminal_states ["closed"]
+  @github_token_environment_names [
+    "GITHUB_TOKEN",
+    "GH_TOKEN",
+    "GITHUB_ENTERPRISE_TOKEN",
+    "GH_ENTERPRISE_TOKEN"
+  ]
 
   @spec validate_config(map()) :: :ok | {:error, term()}
   def validate_config(tracker_settings) do
@@ -42,7 +48,10 @@ defmodule SymphonyElixir.GitHub.Adapter do
   def execute_agent_tool(tool, arguments, opts), do: AgentTool.execute(tool, arguments, opts)
 
   @spec secret_environment_names(map()) :: [String.t()]
-  def secret_environment_names(tracker_settings), do: Client.secret_environment_names(tracker_settings)
+  def secret_environment_names(tracker_settings) do
+    (@github_token_environment_names ++ Client.secret_environment_names(tracker_settings))
+    |> Enum.uniq()
+  end
 
   defp client_module do
     Application.get_env(:symphony_elixir, :github_client_module, Client)
